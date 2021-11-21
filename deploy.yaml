@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: MVP-FE-Front-Autenticacion
-  namespace: prod
+  namespace: default
   labels:
     app: MVP-FE-Front-Autenticacion
 spec:

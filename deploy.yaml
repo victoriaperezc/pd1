@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: MVP-FE-Front-Autenticacion
+  name: front-autenticacion
   namespace: default
   labels:
-    app: MVP-FE-Front-Autenticacion
+    app: front-autenticacion
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: MVP-FE-Front-Autenticacion
+      app: front-autenticacion
   template:
     metadata:
       labels:
-        app: MVP-FE-Front-Autenticacion
+        app: front-autenticacion
     spec:
       containers:
-      - name: MVP-FE-Front-Autenticacion
+      - name: front-autenticacion
         image: victoriaperez/manual-build
         ports:
         - containerPort: 8080

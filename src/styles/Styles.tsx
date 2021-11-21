@@ -393,6 +393,59 @@ export const Styles = StyleSheet.create({
         color: '#fff',
         fontFamily: 'workSans',
         textAlign: 'center',
+    },
+    textInputInformacionGeneral: {
+        backgroundColor: 'white', 
+        marginTop: '1%'
+    },
+    errorInput: {
+        borderColor: 'red',
+        borderWidth: 2,
+        backgroundColor: 'white', 
+        marginTop: '1%'
+    },
+    picker:{
+        marginTop: '1%' 
+    },
+    pickerError:{
+        marginTop: '1%',
+        borderColor: 'red',
+        borderWidth: 2
+    },
+    errorText: {
+        //fontSize: 10,
+        color: 'red',
+        fontFamily: 'cursive'
+    },
+    textInputDireccion: {
+        backgroundColor: 'white', 
+        marginTop: '1%', 
+        height: '70%', 
+        marginRight: '1%', 
+        width: '32%'
+    },
+    errorInputDireccion: {
+        backgroundColor: 'white', 
+        marginTop: '1%', 
+        height: '70%', 
+        marginRight: '1%', 
+        width: '32%',
+        borderColor: 'red',
+        borderWidth: 2,
+    },
+    textInputGrandeInformacionGeneral:{
+        height: hp('20%'), 
+        backgroundColor: 'white', 
+        justifyContent: 'flex-start', 
+        marginTop: '1%' 
+    },
+    errorInputGrandeInformacionGeneral:{
+        height: hp('20%'), 
+        backgroundColor: 'white', 
+        justifyContent: 'flex-start', 
+        marginTop: '1%',
+        borderColor: 'red',
+        borderWidth: 2, 
     }
 });
 

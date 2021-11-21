@@ -33,10 +33,10 @@ export const StackNavigator = () => {
       <Stack.Screen name="TerminoIndefinido" component={TerminoIndefinido} />
       <Stack.Screen name="PerfilAfiliado" component={AffiliatedProfile_Page} />
       <Stack.Screen name="PerfilF" component={PerfilFEL} />
+      <Stack.Screen name="AffiliatonForm_Page" component={AffiliatonForm_Page} />
       <Stack.Screen name="PerfilDevolucion" component={PerfilDevolucion} />
       <Stack.Screen name="PerfilFirma" component={PerfilFirma} />
       <Stack.Screen name="PerfilDeceval" component={PerfilDeceval} />
-      <Stack.Screen name="AffiliatonForm_Page" component={AffiliatonForm_Page} />
       <Stack.Screen name="ListaSolicitantes" component={ListaAplicantesPagina} />
       <Stack.Screen name="PerfilEmpleado" component={PerfilEmpleado} />
       <Stack.Screen name="DocumentosEmpleado" component={DocumentosEmpleadoPagina} />

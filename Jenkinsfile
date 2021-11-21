@@ -1,8 +1,19 @@
 pipeline {
-  environment {
+    
+    agent any
+   
+    triggers {
+        pollSCM('* * * * *')
+    }
+    
+    options { 
+        buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '3', daysToKeepStr: '3', artifactDaysToKeepStr: '3')) 
+    }
+    
+    environment {
         DOCKER_IMAGE_NAME = "victoriaperez/front-autentication"
     }
-  agent any
+  
   stages {
     stage('Docker Build') {
       steps {

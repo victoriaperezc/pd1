@@ -1,24 +1,19 @@
-FROM node:12
+FROM node:lts-alpine
 
-# Create app directory
+# install simple http server for serving static content
 RUN npm install -g http-server
 
-WORKDIR /usr/src/app
+# make the 'app' folder the current working directory
+WORKDIR /app
 
-# Install app dependencies
-# A wildcard is used to ensure both package.json AND package-lock.json are copied
-# where available (npm@5+)
+# copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./
 
-RUN npm install
-RUN npm install expo-cli
+# install project dependencies
+RUN yarn
 
-RUN npm run web
-# If you are building your code for production
-# RUN npm ci --only=production
-
-# Bundle app source
+# copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .
 
-EXPOSE 8000
-CMD [ "npm", "run", "start" ]
+EXPOSE 8080
+CMD [ "http-server", "build" ]

@@ -4,7 +4,7 @@ FROM node:lts-alpine
 
 
 # make the 'app' folder the current working directory
-WORKDIR /App
+WORKDIR /app
 
 # copy both 'package.json' and 'package-lock.json' (if available)
 COPY package*.json ./

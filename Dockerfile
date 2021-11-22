@@ -1,13 +1,22 @@
-FROM ubuntu:16.04
+FROM node:lts-alpine
 
-RUN apt-get update && \
-  apt-get install -y  curl && \
-  curl -fsSL https://deb.nodesource.com/setup_14.x | bash - && \
-  apt-get install -y nodejs
+# install simple http server for serving static content
+RUN npm install -g http-server
 
-COPY ./app /home/
-WORKDIR /home
+# make the 'app' folder the current working directory
+WORKDIR /app
 
-RUN npm install && npm install -g expo-cli
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY package*.json ./
+
+# install project dependencies
+RUN yarn
+
+# copy project files and folders to the current working directory (i.e. 'app' folder)
+COPY . .
+
+# build app for production with minification
+RUN npm run build
+
 EXPOSE 8080
-CMD [ "npm", "start" ]
+CMD [ "http-server", "build" ]

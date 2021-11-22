@@ -7,7 +7,7 @@ COPY package.json /usr/src/app/package.json
 RUN npm install --silent
 RUN npm install react-scripts -g --silent
 COPY . /usr/src/app
-RUN npm run build
+RUN npm start
 
 ### STAGE 2: Production Environment ###
 FROM nginx:1.13.12-alpine

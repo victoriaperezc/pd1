@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: front-autenticacion
-        image: victoriaperez/front-autentication:61
+        image: victoriaperez/front-autentication:{{BUILD_NUMBER}}
         ports:
         - containerPort: 8080
 

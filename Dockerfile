@@ -23,7 +23,7 @@ RUN yarn --silent
 COPY . /app
 
 # build the app 
-RUN yarn build
+RUN yarn
 
 # STAGE 2 - build the final image using a nginx web server 
 # distribution and copy the react build files

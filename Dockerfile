@@ -1,22 +1,42 @@
-FROM node:lts-alpine
+# STAGE 1 - build the react app 
+# set the base image to build from 
+# This is the application image from which all other subsequent 
+# applications run. Alpine Linux is a security-oriented, lightweight 
+#(~5Mb) Linux distribution.
+FROM node:alpine as build
 
-# install simple http server for serving static content
-
-
-# make the 'app' folder the current working directory
+# set working directory
+# this is the working folder in the container from which the app
+# will be running from
 WORKDIR /app
 
-# copy both 'package.json' and 'package-lock.json' (if available)
-COPY package*.json ./
+# add the node_modules folder to $PATH
+ENV PATH /app/node_modules/.bin:$PATH
 
-# install project dependencies
-RUN yarn
+# copy package.json file to /app directory for installation prep
+COPY ./package.json /app/
 
-# copy project files and folders to the current working directory (i.e. 'app' folder)
-COPY . .
+# install dependencies
+RUN yarn --silent
 
-RUN npm install -g http-server
-# build app for production with minification
+# copy everything to /app directory
+COPY . /app
 
-EXPOSE 8080
-CMD [ "http-server", "build" ]
+# build the app 
+RUN yarn build
+
+# STAGE 2 - build the final image using a nginx web server 
+# distribution and copy the react build files
+FROM nginx:alpine
+COPY --from=build /app/build /usr/share/nginx/html
+
+# needed this to make React Router work properly 
+RUN rm /etc/nginx/conf.d/default.conf
+COPY nginx/nginx.conf /etc/nginx/conf.d
+
+# Expose port 80 for HTTP Traffic 
+EXPOSE 80
+
+# start the nginx web server
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -11,7 +11,7 @@ COPY package*.json ./
 
 # install project dependencies
 RUN yarn
-RUN npm run build
+RUN npm run web
 
 # copy project files and folders to the current working directory (i.e. 'app' folder)
 COPY . .

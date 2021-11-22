@@ -1,11 +1,22 @@
-### STAGE 1: Build ###
 FROM node:lts-alpine
-WORKDIR /usr/src/app
-COPY package.json /usr/src/app/package.json
-COPY . /usr/src/app
 
-### STAGE 2: Production Environment ###
-FROM nginx:1.13.12-alpine
-COPY . /usr/share/nginx/html
+# install simple http server for serving static content
+RUN npm install -g http-server
+
+# make the 'app' folder the current working directory
+WORKDIR /app
+
+# copy both 'package.json' and 'package-lock.json' (if available)
+COPY package*.json ./
+
+# install project dependencies
+RUN yarn
+
+# copy project files and folders to the current working directory (i.e. 'app' folder)
+COPY . .
+
+# build app for production with minification
+RUN npm run build
+
 EXPOSE 8080
-CMD ["nginx", "-g", "daemon off;"]
+CMD [ "http-server", "build" ]

@@ -6,6 +6,6 @@ COPY . /usr/src/app
 
 ### STAGE 2: Production Environment ###
 FROM nginx:1.13.12-alpine
-COPY /usr/src/app /usr/share/nginx/html
+
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]

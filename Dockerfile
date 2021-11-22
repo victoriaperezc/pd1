@@ -16,7 +16,7 @@ RUN yarn
 COPY . .
 
 # build app for production with minification
-RUN npm run build
+RUN npm start
 
 EXPOSE 8080
 CMD [ "http-server", "build" ]

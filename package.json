@@ -7,8 +7,6 @@
     "android": "expo start --android",
     "ios": "expo start --ios",
     "web": "expo start --web",
-    "build": "expo start --web",
-    "test": "react-scripts test --env=jsdom",
     "eject": "expo eject"
   },
   "dependencies": {

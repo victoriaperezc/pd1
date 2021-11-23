@@ -1,11 +1,74 @@
 import React, { useState } from 'react'
-import { Text, View, TextInput, ImageBackground } from 'react-native';
+import { Text, View, TextInput, ImageBackground, Button } from 'react-native';
 // @ts-ignore
 import { Collapse, CollapseHeader, CollapseBody } from "accordion-collapse-react-native";
 import { widthPercentageToDP as wp, heightPercentageToDP as hp } from 'react-native-responsive-screen';
 import { Picker } from '@react-native-picker/picker';
 import { Styles } from '../styles/Styles';
+import CustomInput from './CustomInput'
+import { Formik, Form, Field, FormikErrors, FormikTouched } from 'formik';
+import * as Yup from 'yup';
 
+
+
+const SignupSchema = Yup.object().shape({
+    declaraRenta: Yup.string().required('x'),
+    recursosPublicos: Yup.string().required('x'),
+    selectedValuePEP: Yup.string().required('x'),
+    selectedValueFamiliaPEP: Yup.string().required('x'),
+    actividadEconomica: Yup.string().required('x'),
+    codigoCIIU: Yup.string().required('x'),
+    ciudadOtrasActividades: Yup.string().required('x'),
+    ingresosMensuales: Yup.string().required('x'),
+    otrosIngresos: Yup.string().required('x'),
+    egresosMensuales: Yup.string().required('x'),
+    activos: Yup.string().required('x'),
+    pasivos: Yup.number().required('x'),
+    selectedValueOperaciones: Yup.string().required('x'),
+    selectedValueCuentas: Yup.string().required('x'),
+    procesoReinsercion: Yup.string().required('x'),
+    justicia: Yup.string().required('x'),
+    detalles: Yup.string().required('x'),
+
+    claseActividadPEP: Yup.string().when('selectedValuePEP',{
+        is: 'Si', 
+        then: Yup.string().required('x'), 
+        //otherwise: Yup.string()
+    }),
+    observacionPEP: Yup.string().when('selectedValuePEP',{
+        is: 'Si', 
+        then: Yup.string().required('x')
+    }),
+    parentesco:Yup.string().when('selectedValueFamiliaPEP', {
+        is: 'Si',
+        then: Yup.string().required('x')
+    }),
+    observacionFamiliaPEP:Yup.string().when('selectedValueFamiliaPEP', {
+        is: 'Si',
+        then: Yup.string().required('x')
+    }),
+    cualesOperaciones: Yup.string().when('selectedValueOperaciones',{
+        is: 'Si',
+        then: Yup.string().required('x')
+    }),
+    bancoCuentas: Yup.string().when('selectedValueCuentas',{
+        is: 'Si',
+        then: Yup.string().required('x')
+    }),
+    monedaCuentas: Yup.string().when('selectedValueCuentas',{
+        is: 'Si',
+        then: Yup.string().required('x')
+    }),
+    paisCuentas: Yup.string().when('selectedValueCuentas',{
+        is: 'Si',
+        then: Yup.string().required('x')
+    }),
+    ciudadCuentas: Yup.string().when('selectedValueCuentas',{
+        is: 'Si',
+        then: Yup.string().required('x')
+    }),
+    
+});
 
 export const InformacionFinanciera = () => {
 
@@ -14,58 +77,82 @@ export const InformacionFinanciera = () => {
     const [selectedValueOperaciones, setSelectedValueOperaciones] = useState("");
     const [selectedValueCuentas, setSelectedValueCuentas] = useState("");
 
-    const renderPEP = () => {
+    
+
+    const renderPEP = (errors: FormikErrors<{claseActividadPEP: string; observacionPEP: string; }>, touched: FormikTouched<{claseActividadPEP: string; observacionPEP: string; }>, values: {claseActividadPEP: any; observacionPEP: any; }, setFieldValue: { (field: string, value: any, shouldValidate?: boolean | undefined): void; (arg0: string, arg1: any): void; }, handleBlur: any, handleChange: any) => {
         if (selectedValuePEP == 'Si')
             return (
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                        <View style={{ width: '48%'}}>
+                        <View style={{ width: '48%' }}>
                             <Text>Clase de Actividad PEP:</Text>
-                            <Picker style={{ marginTop: '1%' }}>
-                                <Picker.Item label="Seleccione una opción" value="java" />
-                                <Picker.Item label="Farandula" value="Si" />
-                                <Picker.Item label="FFMM/Policia" value="No" />
-                                <Picker.Item label="Lideres Comunales" value="No" />
-                                <Picker.Item label="Politica" value="No" />
-                                <Picker.Item label="Prensa" value="No" />
-                            </Picker>
+                            <View style={[(errors.claseActividadPEP && touched.claseActividadPEP) ? Styles.pickerError : Styles.picker]} >
+                                <Picker
+                                    selectedValue={values.claseActividadPEP}
+                                    onValueChange={itemValue => setFieldValue('claseActividadPEP', itemValue)}
+                                    onBlur={handleBlur('claseActividadPEP')}
+                                >
+                                    <Picker.Item label="Seleccione una opción" value="" />
+                                    <Picker.Item label="Farandula" value="Farandula" />
+                                    <Picker.Item label="FFMM/Policia" value="FFMM/Policia" />
+                                    <Picker.Item label="Lideres Comunales" value="Lideres Comunales" />
+                                    <Picker.Item label="Politica" value="Politica" />
+                                    <Picker.Item label="Prensa" value="Prensa" />
+                                </Picker>
+                            </View>
+                            {errors.claseActividadPEP && touched.claseActividadPEP &&
+                                <Text style={[Styles.errorText]}>{errors.claseActividadPEP}</Text>
+                            }
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                        <View style={{ width: '100%'}}>
+                        <View style={{ width: '100%' }}>
                             <Text>Observaciones:</Text>
                             <TextInput
-                                style={{ height: hp('20%'), backgroundColor: 'white', justifyContent: 'flex-start', marginTop: '1%' }}
+                                style={[(errors.observacionPEP && touched.observacionPEP) ? Styles.errorInputGrandeInformacionGeneral : Styles.textInputGrandeInformacionGeneral]}
                                 placeholder="Añadir Texto"
+                                onChangeText={handleChange('observacionPEP')}
+                                onBlur={handleBlur('observacionPEP')}
+                                value={values.observacionPEP}
                             />
                         </View>
+                        {errors.observacionPEP && touched.observacionPEP &&
+                            <Text style={[Styles.errorText]}>{errors.observacionPEP}</Text>
+                        }
                     </View>
                 </View>
             )
         else return null
     }
 
-    const renderFamiliaPEP = () => {
+    const renderFamiliaPEP = (errors: FormikErrors<{parentesco: string; observacionFamiliaPEP: string; }>, touched: FormikTouched<{parentesco: string; observacionFamiliaPEP: string; }>, values: {parentesco: any; observacionFamiliaPEP: any; },  handleBlur:any , handleChange: any) => {
         if (selectedValueFamiliaPEP == 'Si')
             return (
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                        <View style={{ width: '48%'}}>
+                        <View style={{ width: '48%' }}>
                             <Text>Indicar Parentesco:</Text>
-                            <TextInput
+                            <Field
                                 placeholder="Indicar Parentesco"
-                                style={{ backgroundColor: 'white', marginTop: '1%' }}
+                                component={CustomInput}
+                                name="parentesco"
                             />
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                        <View style={{ width: '100%'}}>
+                        <View style={{ width: '100%' }}>
                             <Text>Observaciones:</Text>
                             <TextInput
-                                style={{ height: hp('20%'), backgroundColor: 'white', justifyContent: 'flex-start', marginTop: '1%' }}
+                                style={[(errors.observacionFamiliaPEP && touched.observacionFamiliaPEP) ? Styles.errorInputGrandeInformacionGeneral : Styles.textInputGrandeInformacionGeneral]}
                                 placeholder="Añadir Texto"
+                                onChangeText={handleChange('observacionFamiliaPEP')}
+                                onBlur={handleBlur('observacionFamiliaPEP')}
+                                value={values.observacionFamiliaPEP}
                             />
                         </View>
+                        {errors.observacionFamiliaPEP && touched.observacionFamiliaPEP &&
+                            <Text style={[Styles.errorText]}>{errors.observacionFamiliaPEP}</Text>
+                        }
                     </View>
                 </View>
             )
@@ -76,11 +163,12 @@ export const InformacionFinanciera = () => {
         if (selectedValueOperaciones == 'Si')
             return (
                 <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '48%'}}>
+                    <View style={{ width: '48%' }}>
                         <Text>Cuales:</Text>
-                        <TextInput
+                        <Field
                             placeholder="Cuales"
-                            style={{ backgroundColor: 'white', marginTop: '1%' }}
+                            component={CustomInput}
+                            name="cualesOperaciones"
                         />
                     </View>
                 </View>
@@ -93,34 +181,38 @@ export const InformacionFinanciera = () => {
             return (
                 <View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                        <View style={{ width: '48%'}}>
+                        <View style={{ width: '48%' }}>
                             <Text>Banco:</Text>
-                            <TextInput
+                            <Field
                                 placeholder="Banco"
-                                style={{ backgroundColor: 'white', marginTop: '1%' }}
+                                component={CustomInput}
+                                name="bancoCuentas"
                             />
                         </View>
-                        <View style={{ marginLeft: '4%', width: '48%'}}>
+                        <View style={{ marginLeft: '4%', width: '48%' }}>
                             <Text>Moneda:</Text>
-                            <TextInput
+                            <Field
                                 placeholder="Moneda"
-                                style={{ backgroundColor: 'white', marginTop: '1%' }}
+                                component={CustomInput}
+                                name="monedaCuentas"
                             />
                         </View>
                     </View>
                     <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                        <View style={{ width: '48%'}}>
+                        <View style={{ width: '48%' }}>
                             <Text>Pais:</Text>
-                            <TextInput
+                            <Field
                                 placeholder="Pais"
-                                style={{ backgroundColor: 'white', marginTop: '1%' }}
+                                component={CustomInput}
+                                name="paisCuentas"
                             />
                         </View>
-                        <View style={{ marginLeft: '4%', width: '48%'}}>
+                        <View style={{ marginLeft: '4%', width: '48%' }}>
                             <Text>Ciudad:</Text>
-                            <TextInput
+                            <Field
                                 placeholder="Ciudad"
-                                style={{ backgroundColor: 'white', marginTop: '1%' }}
+                                component={CustomInput}
+                                name="ciudadCuentas"
                             />
                         </View>
                     </View>
@@ -129,13 +221,13 @@ export const InformacionFinanciera = () => {
         else return null
     }
 
-    return (
+    return (        
         <Collapse style={{ alignItems: 'center' }}>
             <CollapseHeader >
                 <View style={Styles.windowDocuments}>
                     <View style={{ margin: '2%' }} >
                         <Text style={Styles.formFillFont}>
-                            Información Financiera - 
+                            Información Financiera
                         </Text>
                     </View>
                     <View style={{ marginRight: '5%' }}>
@@ -147,137 +239,313 @@ export const InformacionFinanciera = () => {
             </CollapseHeader>
 
             <CollapseBody style={{ alignItems: 'center' }}>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '100%'}}>
-                        <Text>Para tener en cuenta:</Text>
-                        <TextInput
-                            style={{ height: hp('20%'), backgroundColor: 'rgb(230,230,230)', justifyContent: 'flex-start', marginTop: '1%' }}
-                            placeholder="El codigo CIIU debe tomarlo de su RUT. Personas expuestas política y públicamente"
-                            editable={false}
-                        />
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('2%'), width: wp('70%') }}>
-                    <View style={{ width: '48%'}}>
-                        <Text>Declara Renta:</Text>
-                        <Picker style={{ marginTop: '1%' }}>
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
-                    <View style={{ marginLeft: '4%', width: '48%' }}>
-                        <Text>Administra o administró recursos públicos:</Text>
-                        <Picker style={{ marginTop: '1%' }}>
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '48%'}}>
-                        <Text>Es PEP:</Text>
-                        <Picker style={{ marginTop: '1%' }} selectedValue={selectedValuePEP} onValueChange={(itemValue, itemIndex) => setSelectedValuePEP(itemValue)}>
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
+                <Formik
+                    initialValues={{
+                        declaraRenta: '',
+                        recursosPublicos: '',
+                        selectedValuePEP: '',
+                        selectedValueFamiliaPEP: '',
+                        actividadEconomica: '',
+                        codigoCIIU: '',
+                        ciudadOtrasActividades: '',
+                        ingresosMensuales: '',
+                        otrosIngresos: '',
+                        egresosMensuales: '',
+                        activos: '',
+                        pasivos: '',
+                        selectedValueOperaciones: '',
+                        selectedValueCuentas: '',
+                        procesoReinsercion: '',
+                        justicia: '',
+                        detalles: '',
+                        claseActividadPEP: '',
+                        observacionPEP: '',
+                        parentesco:'',
+                        observacionFamiliaPEP:'',
+                        cualesOperaciones:'',
+                        bancoCuentas:'',
+                        monedaCuentas:'',
+                        paisCuentas:'',
+                        ciudadCuentas:''                     
+                    }}
+                    validationSchema={SignupSchema}
+                    onSubmit={values => {
+                        // same shape as initial values
+                        console.log(values);
+                    }}
+                >
+                    {({ handleSubmit, isValid, values, setFieldValue, errors, touched, handleChange, handleBlur }) => (
+                        <>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '100%' }}>
+                                    <Text>Para tener en cuenta:</Text>
+                                    <TextInput
+                                        style={{ height: hp('20%'), backgroundColor: 'rgb(230,230,230)', justifyContent: 'flex-start', marginTop: '1%' }}
+                                        placeholder="El codigo CIIU debe tomarlo de su RUT. Personas expuestas política y públicamente"
+                                        editable={false}
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('2%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Declara Renta:</Text>
+                                    <View style={[(errors.declaraRenta && touched.declaraRenta) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.declaraRenta}
+                                            onValueChange={itemValue => setFieldValue('declaraRenta', itemValue)}
+                                            onBlur={handleBlur('declaraRenta')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View>
+                                    {errors.declaraRenta  && touched.declaraRenta &&
+                                        <Text style={[Styles.errorText]}>{errors.declaraRenta}</Text>
+                                    }
+                                </View>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>Administra o administró recursos públicos:</Text>
+                                    <View style={[(errors.recursosPublicos && touched.recursosPublicos) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.recursosPublicos}
+                                            onValueChange={itemValue => setFieldValue('recursosPublicos', itemValue)}
+                                            onBlur={handleBlur('recursosPublicos')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View>
+                                    {errors.recursosPublicos  && touched.recursosPublicos &&
+                                        <Text style={[Styles.errorText]}>{errors.recursosPublicos}</Text>
+                                    }
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Es PEP:</Text>
+                                    <View style={[(errors.selectedValuePEP && touched.selectedValuePEP) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker  
+                                            selectedValue={values.selectedValuePEP} 
+                                            onValueChange={itemValue => {setSelectedValuePEP(itemValue); setFieldValue('selectedValuePEP', itemValue)}}
+                                            onBlur={handleBlur('selectedValuePEP')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View>
+                                    {errors.selectedValuePEP  && touched.selectedValuePEP &&
+                                        <Text style={[Styles.errorText]}>{errors.selectedValuePEP}</Text>
+                                    }
+                                </View>
 
-                    <View style={{ marginLeft: '4%', width: '48%'}}>
-                        <Text>¿Usted es familiar de algun PEP?:</Text>
-                        <Picker style={{ marginTop: '1%' }} selectedValue={selectedValueFamiliaPEP} onValueChange={(itemValue, itemIndex) => setSelectedValueFamiliaPEP(itemValue)}>
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
-                </View>
-                <Text>{renderPEP()}</Text>
-                <Text>{renderFamiliaPEP()}</Text>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>¿Usted es familiar de algun PEP?:</Text>
+                                    <View style={[(errors.selectedValueFamiliaPEP && touched.selectedValueFamiliaPEP) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.selectedValueFamiliaPEP} 
+                                            onValueChange={itemValue => {setSelectedValueFamiliaPEP(itemValue);setFieldValue('selectedValueFamiliaPEP', itemValue)}}
+                                            onBlur={handleBlur('selectedValueFamiliaPEP')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View>
+                                    {errors.selectedValueFamiliaPEP  && touched.selectedValueFamiliaPEP &&
+                                        <Text style={[Styles.errorText]}>{errors.selectedValueFamiliaPEP}</Text>
+                                    }
+                                </View>
+                            </View>
+                            <Text>{renderPEP(errors, touched, values, setFieldValue, handleBlur, handleChange)}</Text>
+                            <Text>{renderFamiliaPEP(errors, touched, values, handleBlur, handleChange)}</Text>
 
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '48%'}}>
-                        <Text>Otros Ingresos:</Text>
-                        <TextInput
-                            placeholder="Otros Ingresos"
-                            style={{ backgroundColor: 'white', marginTop: '1%' }}
-                        />
-                    </View>
-                    <View style={{ marginLeft: '4%', width: '48%'}}>
-                        <Text>Egresos Mensuales:</Text>
-                        <TextInput
-                            placeholder="Egresos Mensuales"
-                            style={{ backgroundColor: 'white', marginTop: '1%' }}
-                        />
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '48%'}}>
-                        <Text>Total bienes activos:</Text>
-                        <TextInput
-                            placeholder="Total bienes activos"
-                            style={{ backgroundColor: 'white', marginTop: '1%' }}
-                        />
-                    </View>
-                    <View style={{ marginLeft: '4%', width: '48%'}}>
-                        <Text>Total deudas pasivos:</Text>
-                        <TextInput
-                            placeholder="Total deudas pasivos"
-                            style={{ backgroundColor: 'white', marginTop: '1%' }}
-                        />
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '48%'}}>
-                        <Text>Realiza operaciones en moneda extranjera y/o criptomodena:</Text>
-                        <Picker style={{ marginTop: '1%' }} selectedValue={selectedValueOperaciones} onValueChange={(itemValue, itemIndex) => setSelectedValueOperaciones(itemValue)}>
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Actividad económica otros ingresos:</Text>
+                                    <Field
+                                        placeholder="Actividad económica otros ingresos"
+                                        component={CustomInput}
+                                        name="actividadEconomica"
+                                    />
+                                </View>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>Código CIIU otros ingresos:</Text>
+                                    <Field
+                                        placeholder="Código CIIU otros ingresos"
+                                        component={CustomInput}
+                                        name="codigoCIIU"
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Ciudad - otras actividades económicas:</Text>
+                                    <View style={[(errors.ciudadOtrasActividades && touched.ciudadOtrasActividades) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.ciudadOtrasActividades} 
+                                            onValueChange={itemValue => setFieldValue('ciudadOtrasActividades', itemValue)}
+                                            onBlur={handleBlur('ciudadOtrasActividades')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View> 
+                                    {errors.ciudadOtrasActividades  && touched.ciudadOtrasActividades &&
+                                        <Text style={[Styles.errorText]}>{errors.ciudadOtrasActividades}</Text>
+                                    }   
+                                </View>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>Ingresos Mensuales:</Text>
+                                    <Field
+                                        placeholder="Ingresos Mensuales"
+                                        component={CustomInput}
+                                        name="ingresosMensuales"
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Otros Ingresos:</Text>
+                                    <Field
+                                        placeholder="Otros Ingresos"
+                                        component={CustomInput}
+                                        name="otrosIngresos"
+                                    />
+                                </View>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>Egresos Mensuales:</Text>
+                                    <Field
+                                        placeholder="Egresos Mensuales"
+                                        component={CustomInput}
+                                        name="egresosMensuales"
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Total bienes activos:</Text>
+                                    <Field
+                                        placeholder="Total bienes activos"
+                                        component={CustomInput}
+                                        name="activos"
+                                    />
+                                </View>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>Total deudas pasivos:</Text>
+                                    <Field
+                                        placeholder="Total deudas pasivos"
+                                        component={CustomInput}
+                                        name="pasivos"
+                                    />
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Realiza operaciones en moneda extranjera y/o criptomodena:</Text>
+                                    <View style={[(errors.selectedValueOperaciones && touched.selectedValueOperaciones) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.selectedValueOperaciones} 
+                                            onValueChange={itemValue => {setSelectedValueOperaciones(itemValue);setFieldValue('selectedValueOperaciones', itemValue)}}
+                                            onBlur={handleBlur('selectedValueOperaciones')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View> 
+                                    {errors.selectedValueOperaciones  && touched.selectedValueOperaciones &&
+                                        <Text style={[Styles.errorText]}>{errors.selectedValueOperaciones}</Text>
+                                    }   
+                                </View>
 
-                    <View style={{ marginLeft: '4%', width: '48%'}}>
-                        <Text>Posee cuentas en moneda extranjera:</Text>
-                        <Picker style={{ marginTop: '1%' }} selectedValue={selectedValueCuentas} onValueChange={(itemValue, itemIndex) => setSelectedValueCuentas(itemValue)}>
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
-                </View>
-                <Text>{renderOperaciones()}</Text>
-                <Text>{renderCuentas()}</Text>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '48%'}}>
-                        <Text>Se acogio usted a un proceso de reinserción:</Text>
-                        <Picker style={{ marginTop: '1%' }} >
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>Posee cuentas en moneda extranjera:</Text>
+                                    <View style={[(errors.selectedValueCuentas && touched.selectedValueCuentas) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.selectedValueCuentas} 
+                                            onValueChange={itemValue => {setSelectedValueCuentas(itemValue); setFieldValue('selectedValueCuentas', itemValue)}}
+                                            onBlur={handleBlur('selectedValueCuentas')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View>
+                                    {errors.selectedValueCuentas  && touched.selectedValueCuentas &&
+                                        <Text style={[Styles.errorText]}>{errors.selectedValueCuentas}</Text>
+                                    }
+                                </View>
+                            </View>
+                            <Text>{renderOperaciones()}</Text>
+                            <Text>{renderCuentas()}</Text>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '48%' }}>
+                                    <Text>Se acogio usted a un proceso de reinserción:</Text>
+                                    <View style={[(errors.procesoReinsercion && touched.procesoReinsercion) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.procesoReinsercion}
+                                            onValueChange={itemValue => setFieldValue('procesoReinsercion', itemValue)}
+                                            onBlur={handleBlur('procesoReinsercion')} 
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View> 
+                                    {errors.procesoReinsercion  && touched.procesoReinsercion &&
+                                        <Text style={[Styles.errorText]}>{errors.procesoReinsercion}</Text>
+                                    }   
+                                </View>
 
-                    <View style={{ marginLeft: '4%', width: '48%'}}>
-                        <Text>¿Usted ha estado inmerso(a) en alguna situación con la justicia?:</Text>
-                        <Picker style={{ marginTop: '1%' }} >
-                            <Picker.Item label="Seleccione una opción" value="java" />
-                            <Picker.Item label="Si" value="Si" />
-                            <Picker.Item label="No" value="No" />
-                        </Picker>
-                    </View>
-                </View>
-                <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
-                    <View style={{ width: '100%'}}>
-                        <Text>Detalle:</Text>
-                        <TextInput
-                            style={{ height: hp('20%'), backgroundColor: 'white', justifyContent: 'flex-start', marginTop: '1%' }}
-                            placeholder="Si ha estado inmerso(a) en alguna situación con la justicia indique el detalle, de lo contrario ponga N/A"
-                        />
-                    </View>
-                </View>
+                                <View style={{ marginLeft: '4%', width: '48%' }}>
+                                    <Text>¿Usted ha estado inmerso(a) en alguna situación con la justicia?:</Text>
+                                    <View style={[(errors.justicia && touched.justicia) ? Styles.pickerError : Styles.picker]} >
+                                        <Picker 
+                                            selectedValue={values.justicia}
+                                            onValueChange={itemValue => setFieldValue('justicia', itemValue)}
+                                            onBlur={handleBlur('justicia')}
+                                        >
+                                            <Picker.Item label="Seleccione una opción" value="" />
+                                            <Picker.Item label="Si" value="Si" />
+                                            <Picker.Item label="No" value="No" />
+                                        </Picker>
+                                    </View>
+                                    {errors.justicia  && touched.justicia &&
+                                        <Text style={[Styles.errorText]}>{errors.justicia}</Text>
+                                    }
+                                </View>
+                            </View>
+                            <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginTop: wp('1%'), width: wp('70%') }}>
+                                <View style={{ width: '100%' }}>
+                                    <Text>Detalle:</Text>
+                                    <TextInput
+                                        style={[(errors.detalles && touched.detalles) ? Styles.errorInputGrandeInformacionGeneral : Styles.textInputGrandeInformacionGeneral]}
+                                        onChangeText={handleChange('detalles')}
+                                        onBlur={handleBlur('detalles')}
+                                        value={values.detalles}
+                                        placeholder="Si ha estado inmerso(a) en alguna situación con la justicia indique el detalle, de lo contrario ponga N/A"
+                                        multiline={true}
+                                    />
+                                </View>
+                                {errors.detalles  &&  touched.detalles &&
+                                    <Text style={[Styles.errorText]}>{errors.detalles}</Text>
+                                }
+                            </View>
+                            <View style={{marginTop: '2%'}}>
+                            <Button
+                                onPress={handleSubmit}
+                                title="Enviar"
+                                disabled={!isValid}
+                                color='#5099D2'
+                            />
+                            </View>
+                        </>
+                    )}
+                </Formik>
             </CollapseBody>
         </Collapse>
     )

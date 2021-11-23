@@ -9,7 +9,7 @@ const PerfilEmpleado = ({ route, navigation }) => {
   const item = route.params;
   const [text, onChangeText] = React.useState("");
 
-  
+
   //#region ApprovadeVisible 
   const [isVisibleApprovade, setVisibleApprovade] = useState(false);
 
@@ -134,7 +134,11 @@ const PerfilEmpleado = ({ route, navigation }) => {
     setVisibleUndo9(!isVisibleUndo9);
   };
 
+  const [isVisibleUndoTask2, setVisibleUndoTask2] = useState(false);
 
+  const toggleUndoTask2 = () => {
+    setVisibleUndoTask2(!isVisibleUndoTask2);
+  };
 
   //#endregion
 
@@ -199,6 +203,12 @@ const PerfilEmpleado = ({ route, navigation }) => {
     setModalVisible9(!isModalVisible9);
   };
 
+  const [isModalVisibleTask2, setModalVisibleTask2] = useState(false);
+
+  const toggleModalTask2 = () => {
+    setModalVisibleTask2(!isModalVisibleTask2);
+  };
+
   //#endregion  
 
   //#region functionCombined
@@ -251,12 +261,24 @@ const PerfilEmpleado = ({ route, navigation }) => {
     toggleModal9();
     toggleUndo9();
   }
+
+  const functionCombinedTask2 = () => {
+    toggleModalTask2();
+    toggleUndoTask2();
+  }
   //#endregion
 
+  //#region isVisibleCompleteTask
   const [isVisibleCompleteTask2, setVisibleCompleteTask2] = useState(false);
 
   const toggleCompleteTask2 = () => {
     setVisibleCompleteTask2(!isVisibleCompleteTask2);
+  };
+
+  const [isVisibleCompleteTask3, setVisibleCompleteTask3] = useState(false);
+
+  const toggleCompleteTask3 = () => {
+    setVisibleCompleteTask3(!isVisibleCompleteTask3);
   };
 
   const [isVisibleEndTask2, setVisibleEndTask2] = useState(false);
@@ -264,6 +286,20 @@ const PerfilEmpleado = ({ route, navigation }) => {
   const toggleEndTask2 = () => {
     setVisibleEndTask2(!isVisibleEndTask2);
   };
+
+  const [isVisibleEndTask4, setVisibleEndTask4] = useState(false);
+
+  const toggleEndTask4 = () => {
+    setVisibleEndTask4(!isVisibleEndTask4);
+  };
+
+  const [isVisibleEndTask5, setVisibleEndTask5] = useState(false);
+
+  const toggleEndTask5 = () => {
+    setVisibleEndTask5(!isVisibleEndTask5);
+  };
+
+
 
   const [isVisibleCompleteTask6, setVisibleCompleteTask6] = useState(false);
 
@@ -307,7 +343,7 @@ const PerfilEmpleado = ({ route, navigation }) => {
     setVisibleNextTask6(!isVisibleNextTask6);
   };
 
-
+  //#endregion 
 
   return (
     <View style={styles.container}>
@@ -331,6 +367,7 @@ const PerfilEmpleado = ({ route, navigation }) => {
 
       <View style={styles.backProfileDocuments}>
         <View style={styles.backButtonProfileDocuments}>
+
           <TouchableOpacity>
             <View style={styles.buttonProfileDocuments}>
               <Text style={styles.textbuttonProfileDocuments}>Perfil</Text>
@@ -342,9 +379,11 @@ const PerfilEmpleado = ({ route, navigation }) => {
               <Text style={styles.textbuttonProfileDocuments}>Documentos</Text>
             </View>
           </TouchableOpacity>
+
         </View>
 
         <View style={styles.backProfileDocumentsSplit}>
+
           <View style={styles.backProfile}>
             <TouchableHighlight
               style={[
@@ -384,6 +423,7 @@ const PerfilEmpleado = ({ route, navigation }) => {
               />
             </View>
           </View>
+
           <View style={styles.lineProfile} />
           <View style={styles.backTasks}>
 
@@ -398,20 +438,20 @@ const PerfilEmpleado = ({ route, navigation }) => {
                     name='check-circle'
                     color='#828282'
                     setModalVisible='false' />
-                  <TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask1}>
+                  <TouchableOpacity style={styles.widthButtonUndo} onPress={toggleNextTask1}>
                     <View style={styles.buttonsBack}>
                       <Text style={styles.textViewPDF}>Deshacer</Text>
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask1}>
+                  <TouchableOpacity style={styles.widthButtonBack} onPress={toggleNextTask1}>
                     <View style={styles.buttonsApproved}>
                       <Text style={styles.textApprovade}>Revisar</Text>
                     </View>
                   </TouchableOpacity>
 
                 </View>) : (
-                  <View style={styles.infoContainer}>
+                  <View style={styles.infoContainerAproved}>
                     <Text style={styles.taskTitle1}>Tarea 1</Text>
 
                     <View style={styles.infoContainerTask}>
@@ -738,80 +778,151 @@ const PerfilEmpleado = ({ route, navigation }) => {
                   </View>
                 </TouchableOpacity>) : null : null : null : null}
 
-                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? (<View style={styles.infoContainer}>
+                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? isVisibleCompleteTask2 ? (<View style={styles.infoContainerAproved}>
                   <Text style={styles.taskTitle1}>Tarea 2</Text>
-                  {isVisibleCompleteTask2? (<Text>Debe realizar la inscripción o registro en el FEL. Marque la casilla para completar el progreso </Text>) : (<Text> Verificación de información de formulario FEL </Text>)}
 
-                  <View style={styles.infoContainerAproved}>
-                    {isVisibleCompleteTask2? null: (
-                      <TouchableOpacity style={styles.widthTasks}>
-                        <View style={styles.buttonsBack}>
-                          <Text style={styles.textViewPDF}>Deshacer</Text>
-                        </View>
-                      </TouchableOpacity>)}
-
-                    {isVisibleCompleteTask2 ? (<View style={styles.infoContainerTask2}>
-                      <CheckBox
-                        value='Completado'
-                        style={styles.checkbox}
-                      />
-                      <Text >Completado</Text>
-                    </View>) : (<TouchableOpacity style={styles.widthTasks} onPress={toggleCompleteTask2} >
-                      <View style={styles.buttonsApproved}>
-                        <Text style={styles.textApprovade}>Completado</Text>
-                      </View>
-                    </TouchableOpacity>)}
-
-                  </View>
-                </View>) : null : null : null : null : null}
-
-                {isVisibleCompleteTask2? null : isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? (<TouchableOpacity style={styles.widthTasks} onPress={toggleEndTask2}>
-                  <View style={styles.nextButtonTasks}>
-                    <Text style={styles.textApprovade}>Finalizar</Text>
-                  </View>
-                </TouchableOpacity>
-                ) : null : null : null : null : null}
-
-                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? isVisibleCompleteTask2? (<View style={styles.infoContainer}>
-                  <Text style={styles.taskTitle1}>Tarea 3</Text>
-                  <Text> Envío de cartas de vinculación</Text>
-                  {isVisibleNextTask3? null: (<View style={styles.infoContainerAproved}>
-                    <TouchableOpacity style={styles.widthTasks}  onPress={toggleNextTask3}>
-                      <View style={styles.buttonsApproved}>
-                        <Text style={styles.textApprovade}>Enviar</Text>
-                      </View>
-                    </TouchableOpacity>
-                  </View>)}
-                  
-                </View>) : null : null : null : null :null :null}
-
-                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask3? (<TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask1}>
-                  <View style={styles.nextButtonTasks}>
-                    <Text style={styles.textApprovade}>Siguiente</Text>
-                  </View>
-                </TouchableOpacity>) : null : null : null : null : null}
-              
-                {isVisibleUndo4 ?  (<View style={styles.infoContainerAproved}>
-                  <Text style={styles.taskTitle1}>Tarea 4</Text>
                   <Icon
-                    name='check-circle'
-                    color='#828282'
-                    setModalVisible='false' />
-                  <TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask4}>
+                      name='check-circle'
+                      color='#828282'
+                      setModalVisible='false' />
+
+                 <TouchableOpacity style={styles.widthButtonUndo} onPress={toggleCompleteTask2}>
                     <View style={styles.buttonsBack}>
                       <Text style={styles.textViewPDF}>Deshacer</Text>
                     </View>
                   </TouchableOpacity>
 
-                  <TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask4}>
+                  <TouchableOpacity style={styles.widthButtonBack} onPress={toggleCompleteTask2}>
+                    <View style={styles.buttonsApproved}>
+                      <Text style={styles.textApprovade}>Revisar</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                </View>) : isVisibleUndoTask2? <View style={styles.infoContainerTaskApprovedTask2}>
+                <Text style={styles.taskTitle1}>Tarea 2 </Text>
+                <Icon 
+                style={styles.iconTask2}
+                          name='undo'
+                          color='#828282'
+                          setModalVisible='false' />
+                <Text>Pendiente</Text>
+
+
+                </View> : (<View style={styles.infoContainer}>
+                  <Text style={styles.taskTitle1}>Tarea 2 </Text>
+                  {isVisibleCompleteTask2 ? null : isVisibleUndoTask2? null: (<Text style={styles.taskText}> Verificación de información de formulario FEL </Text>)}
+
+                  <View style={styles.infoContainerButtonsTask2}>
+                      {isVisibleCompleteTask2 ? null : (
+                        <TouchableOpacity style={styles.widthTasks} onPress={toggleModalTask2}>
+                          <View style={styles.buttonsBack}>
+                            <Text style={styles.textViewPDF}>Devolver</Text>
+                          </View>
+                        </TouchableOpacity>)}
+
+                      {isVisibleCompleteTask2 ? null : (<TouchableOpacity style={styles.widthTasksUndo} onPress={toggleCompleteTask2} >
+                        <View style={styles.buttonsApprovedUndo}>
+                          <Text style={styles.textApprovade}>Completado</Text>
+                        </View>
+                      </TouchableOpacity>)}
+
+                    </View>
+
+                </View>) : null : null : null : null : null}
+
+                <Modal style={styles.modalBack} isVisible={isModalVisibleTask2}>
+                  <View style={styles.backgroundModal}>
+
+                    <View style={styles.backModal}>
+
+                      <TouchableOpacity
+                        style={styles.buttonHideModal}
+                        onPress={toggleModalTask2}
+                      >
+                        <Text style={styles.textHideModal}>X</Text>
+                      </TouchableOpacity>
+
+                      <Text style={styles.textFeedBack}>Comentario de Devolución</Text>
+
+                    </View>
+
+                    <TextInput
+                      style={styles.inputFeedBack}
+                      onChangeText={onChangeText}
+                      placeholder="Añadir Texto"
+                      value={text}
+                    />
+
+                    <TouchableOpacity onPress={functionCombinedTask2}>
+                      <View style={styles.buttonTextSend}>
+                        <Text style={styles.textbuttonTaskValidar}>Enviar</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>
+                </Modal>
+
+                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? isVisibleCompleteTask2? isVisibleEndTask4? 
+                (<View style={styles.infoContainerAproved}>
+                  <Text style={styles.taskTitle1}>Tarea 3</Text>
+
+                  <Icon
+                      name='check-circle'
+                      color='#828282'
+                      setModalVisible='false' />
+
+                 <TouchableOpacity style={styles.widthButtonUndo} onPress={toggleEndTask4}>
+                    <View style={styles.buttonsBack}>
+                      <Text style={styles.textViewPDF}>Deshacer</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.widthButtonBack} onPress={toggleEndTask4}>
+                    <View style={styles.buttonsApproved}>
+                      <Text style={styles.textApprovade}>Revisar</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                </View>) : (<View style={styles.infoContainer}>
+                  <Text style={styles.taskTitle1}>Tarea 3</Text>
+                  <Text> Envío de cartas de vinculación</Text>
+                  {isVisibleNextTask3 ? null : (<View style={styles.infoContainerAproved}>
+                    <TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask3}>
+                      <View style={styles.buttonsApproved}>
+                        <Text style={styles.textApprovade}>Enviar</Text>
+                      </View>
+                    </TouchableOpacity>
+                  </View>)}
+
+                </View>) : null : null : null : null : null : null }
+
+                {isVisibleEndTask4 ? null : isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask3 ? (<TouchableOpacity style={styles.widthTasks} onPress={toggleEndTask4}>
+                  <View style={styles.nextButtonTasks}>
+                    <Text style={styles.textApprovade}>Siguiente</Text>
+                  </View>
+                </TouchableOpacity>) : null : null : null : null : null}
+
+                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? isVisibleCompleteTask2? isVisibleEndTask4? isVisibleNextTask4 ? (
+                <View style={styles.infoContainerAprovedTask4}>
+                  <Text style={styles.taskTitle4}>Tarea 4</Text>
+                  <Icon
+                    name='check-circle'
+                    color='#828282'
+                    setModalVisible='false' />
+                  <TouchableOpacity style={styles.widthButtonUndo} onPress={toggleNextTask4}>
+                    <View style={styles.buttonsBack}>
+                      <Text style={styles.textViewPDF}>Deshacer</Text>
+                    </View>
+                  </TouchableOpacity>
+
+                  <TouchableOpacity style={styles.widthButtonBack} onPress={toggleNextTask4}>
                     <View style={styles.buttonsApproved}>
                       <Text style={styles.textApprovade}>Revisar</Text>
                     </View>
                   </TouchableOpacity>
 
                 </View>) : (
-                  <View style={styles.infoContainer}>
-                    <Text style={styles.taskTitle1}>Tarea 4</Text>
+                  <View style={styles.infoContainerAprovedTask4}>
+                    <Text style={styles.taskTitle4}>Tarea 4</Text>
 
                     <View style={styles.infoContainerTask}>
 
@@ -998,13 +1109,13 @@ const PerfilEmpleado = ({ route, navigation }) => {
                             </TouchableOpacity>
                           )}
 
-                          {isVisibleUndo3 ? (<Text>Pendiente</Text>) : null}
+                          {isVisibleUndo7 ? (<Text>Pendiente</Text>) : null}
 
                         </View>
                       </View>
                     </View>
                   </View>
-                )}
+                ): null : null : null : null : null : null : null}
 
 
                 <Modal style={styles.modalBack} isVisible={isModalVisible4}>
@@ -1131,80 +1242,79 @@ const PerfilEmpleado = ({ route, navigation }) => {
                   </View>
                 </Modal>
 
-                {isVisibleNextTask1 ? null : isVisibleApprovade4 ? isVisibleApprovade5 ? isVisibleApprovade6 ? isVisibleApprovade7 ? (<TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask1}>
+                {isVisibleApprovade4 ? isVisibleApprovade5 ? isVisibleApprovade6 ? isVisibleApprovade7 ? (<TouchableOpacity style={styles.widthTasks} onPress={toggleEndTask5}>
                   <View style={styles.nextButtonTasks}>
                     <Text style={styles.textApprovade}>Siguiente</Text>
                   </View>
-                </TouchableOpacity>) : null : null : null : null}
+                </TouchableOpacity>) : null : null : null : null }
 
-
-                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? isVisibleCompleteTask2 ? (<View style={styles.infoContainer}>
+                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? isVisibleCompleteTask2? isVisibleEndTask4? isVisibleNextTask4 ? isVisibleEndTask5 ? (<View style={styles.infoContainer}>
                   <Text style={styles.taskTitle1}>Tarea 5</Text>
                   <Text> Realizar consulta en listas</Text>
-                  {isVisibleNextTask5? null: (<View style={styles.infoContainerAproved}>
+                  {isVisibleNextTask5 ? null : (<View style={styles.infoContainerAproved}>
                     <View style={styles.infoTask}>
-                        {isVisibleApprovade8 ? (<Icon
-                          name='check-circle'
-                          color='#828282'
-                          setModalVisible='false' />) : null}
+                      {isVisibleApprovade8 ? (<Icon
+                        name='check-circle'
+                        color='#828282'
+                        setModalVisible='false' />) : null}
 
-                        {isVisibleUndo8 ? (<Icon
-                          name='undo'
-                          color='#828282'
-                          setModalVisible='false' />) : null}
+                      {isVisibleUndo8 ? (<Icon
+                        name='undo'
+                        color='#828282'
+                        setModalVisible='false' />) : null}
 
-                        <View style={styles.infoTask}>
-                          {isVisibleUndo8 ? null : isVisibleApprovade8 ? null : (
-                            <TouchableOpacity style={styles.widthTasks} onPress={toggleModal8}>
-                              <View style={styles.buttonsBack}>
-                                <Text style={styles.textViewPDF}>Aprobar</Text>
-                              </View>
-                            </TouchableOpacity>
-                          )}
-                          {isVisibleUndo8 ? null : isVisibleApprovade8 ? (
-                            <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade8}>
-                              <View style={styles.buttonsApproved}>
-                                <Text style={styles.textApprovade}>Deshacer</Text>
-                              </View>
-                            </TouchableOpacity>) : (
-                            <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade8}>
-                              <View style={styles.buttonsApproved}>
-                                <Text style={styles.textApprovade}>Validar</Text>
-                              </View>
-                            </TouchableOpacity>
-                          )}
-                        </View>
-
-                        <View style={styles.infoTask}>
-                          {isVisibleUndo9 ? null : isVisibleApprovade9 ? null : (
-                            <TouchableOpacity style={styles.widthTasks} onPress={toggleModal9}>
-                              <View style={styles.buttonsBack}>
-                                <Text style={styles.textViewPDF}>Devolver</Text>
-                              </View>
-                            </TouchableOpacity>
-                          )}
-                          {isVisibleUndo9 ? null : isVisibleApprovade9 ? (
-                            <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade9}>
-                              <View style={styles.buttonsApproved}>
-                                <Text style={styles.textApprovade}>Deshacer</Text>
-                              </View>
-                            </TouchableOpacity>) : (
-                            <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade9}>
-                              <View style={styles.buttonsApproved}>
-                                <Text style={styles.textApprovade}>Validar</Text>
-                              </View>
-                            </TouchableOpacity>
-                          )}
-                        </View>
+                      <View style={styles.infoTask}>
+                        {isVisibleUndo8 ? null : isVisibleApprovade8 ? null : (
+                          <TouchableOpacity style={styles.widthTasks} onPress={toggleModal8}>
+                            <View style={styles.buttonsBack}>
+                              <Text style={styles.textViewPDF}>Aprobar</Text>
+                            </View>
+                          </TouchableOpacity>
+                        )}
+                        {isVisibleUndo8 ? null : isVisibleApprovade8 ? (
+                          <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade8}>
+                            <View style={styles.buttonsApproved}>
+                              <Text style={styles.textApprovade}>Deshacer</Text>
+                            </View>
+                          </TouchableOpacity>) : (
+                          <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade8}>
+                            <View style={styles.buttonsApproved}>
+                              <Text style={styles.textApprovade}>Validar</Text>
+                            </View>
+                          </TouchableOpacity>
+                        )}
                       </View>
-                    <TouchableOpacity style={styles.widthTasks}  onPress={toggleNextTask5}>
+
+                      <View style={styles.infoTask}>
+                        {isVisibleUndo9 ? null : isVisibleApprovade9 ? null : (
+                          <TouchableOpacity style={styles.widthTasks} onPress={toggleModal9}>
+                            <View style={styles.buttonsBack}>
+                              <Text style={styles.textViewPDF}>Devolver</Text>
+                            </View>
+                          </TouchableOpacity>
+                        )}
+                        {isVisibleUndo9 ? null : isVisibleApprovade9 ? (
+                          <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade9}>
+                            <View style={styles.buttonsApproved}>
+                              <Text style={styles.textApprovade}>Deshacer</Text>
+                            </View>
+                          </TouchableOpacity>) : (
+                          <TouchableOpacity style={styles.widthTasks} onPress={toggleApprovade9}>
+                            <View style={styles.buttonsApproved}>
+                              <Text style={styles.textApprovade}>Validar</Text>
+                            </View>
+                          </TouchableOpacity>
+                        )}
+                      </View>
+                    </View>
+                    <TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask5}>
                       <View style={styles.buttonsApproved}>
                         <Text style={styles.textApprovade}>Consultar</Text>
                       </View>
                     </TouchableOpacity>
                   </View>)}
-                  
-                </View>) : null : null : null : null :null :null}                
+
+                </View>) :null : null : null : null : null : null : null : null : null}
 
                 <Modal style={styles.modalBack} isVisible={isModalVisible8}>
                   <View style={styles.backgroundModal}>
@@ -1266,19 +1376,19 @@ const PerfilEmpleado = ({ route, navigation }) => {
                   </View>
                 </Modal>
 
-                
-                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask3? (<TouchableOpacity style={styles.widthTasks} onPress={toggleNextTask1}>
+
+                {isVisibleEndTask6 ? null : isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask3 ? isVisibleEndTask4 ? isVisibleEndTask5 ? (<TouchableOpacity style={styles.widthTasks} onPress={toggleEndTask6}>
                   <View style={styles.nextButtonTasks}>
                     <Text style={styles.textApprovade}>Siguiente</Text>
                   </View>
-                </TouchableOpacity>) : null : null : null : null : null}
+                </TouchableOpacity>) : null : null : null : null : null : null : null}
 
-                {isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? (<View style={styles.infoContainer}>
+                {isVisibleEndTask6 ? isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? (<View style={styles.infoContainer}>
                   <Text style={styles.taskTitle1}>Tarea 6</Text>
-                  {isVisibleCompleteTask6? (<Text>Debe cargar el documento correspondiente al pagaré de Decval. Marque la casilla para completar el progreso </Text>) : (<Text> Verificación de pagare Deceval </Text>)}
+                  {isVisibleCompleteTask6 ? (<Text>Debe cargar el documento correspondiente al pagaré de Decval. Marque la casilla para completar el progreso </Text>) : (<Text> Verificación de pagare Deceval </Text>)}
 
                   <View style={styles.infoContainerAproved}>
-                    {isVisibleCompleteTask6? null: (
+                    {isVisibleCompleteTask6 ? null : (
                       <TouchableOpacity style={styles.widthTasks}>
                         <View style={styles.buttonsBack}>
                           <Text style={styles.textViewPDF}>Deshacer</Text>
@@ -1298,15 +1408,15 @@ const PerfilEmpleado = ({ route, navigation }) => {
                     </TouchableOpacity>)}
 
                   </View>
-                </View>) : null : null : null : null : null}
+                </View>) : null : null : null : null : null : null}
 
-                {isVisibleCompleteTask6? null : isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? (<TouchableOpacity style={styles.widthTasks} onPress={toggleEndTask2}>
+                {isVisibleCompleteTask6 ? null : isVisibleApprovade ? isVisibleApprovade1 ? isVisibleApprovade2 ? isVisibleApprovade3 ? isVisibleNextTask1 ? isVisibleEndTask6 ? (<TouchableOpacity style={styles.widthTasks} onPress={toggleEndTask2}>
                   <View style={styles.nextButtonTasks}>
                     <Text style={styles.textApprovade}>Finalizar</Text>
                   </View>
                 </TouchableOpacity>
-                ) : null : null : null : null : null}
-               
+                ) : null : null : null : null : null : null}
+
               </ScrollView>
             </SafeAreaView>
           </View>
@@ -1318,6 +1428,9 @@ const PerfilEmpleado = ({ route, navigation }) => {
 
 const styles = StyleSheet.create({
   
+  iconTask2: {
+    marginLeft: wp('20%'),
+  },
   lineProfile: {
     borderWidth: wp('0.1%'),
     height: hp('68%'),
@@ -1334,10 +1447,39 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: wp("1.2%")
   },
+  taskTitle4: {
+    fontFamily: 'Montserrat',
+    textAlign: 'left',
+    fontSize: wp("1.2%"),
+    height: hp('80%'),
+  },
+  taskText: {
+    fontFamily: 'Montserrat',
+    textAlign: 'left',
+    fontSize: wp("1.2%"),
+    marginTop: hp("2%"),
+  },
   widthTasks: {
     width: wp('10%'),
     height: hp('10%'),
-    fontFamily: 'WorkSans'
+    fontFamily: 'WorkSans',
+  },
+  widthTasksUndo: {
+    width: wp('12%'),
+    height: hp('10%'),
+    fontFamily: 'WorkSans',
+  },
+  widthButtonUndo: {
+    width: wp('10%'),
+    height: hp('10%'),
+    fontFamily: 'WorkSans',
+    marginLeft: wp('15%'),
+  },
+  widthButtonBack: {
+    width: wp('10%'),
+    height: hp('10%'),
+    fontFamily: 'WorkSans',
+    marginLeft: wp('0%'),
   },
   nextButtonTasks: {
     width: wp('10%'),
@@ -1362,7 +1504,15 @@ const styles = StyleSheet.create({
     borderColor: '#fe462c',
   },
   buttonsApproved: {
-    width: wp('7%'),
+    width: wp('9%'),
+    height: hp('4%'),
+    backgroundColor: '#0072c3',
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: '#001d6c',
+  },
+  buttonsApprovedUndo: {
+    width: wp('9%'),
     height: hp('4%'),
     backgroundColor: '#0072c3',
     borderRadius: 10,
@@ -1470,17 +1620,58 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     height: hp('70%'),
   },
+  infoContainerTaskApprovedTask2:{
+    flex: 1,
+    justifyContent: "flex-start",
+    flexWrap: "wrap",
+    backgroundColor: "#33b1ff",
+    paddingTop: hp('5%'),
+    marginRight: wp('0%'),
+    marginTop: hp('3%'),
+    marginBottom: hp('3%'),
+    paddingLeft: wp('1%'),
+    flexDirection: 'row',
+    borderRadius: 10,
+  },
   infoContainerAproved: {
     flex: 1,
     justifyContent: "space-around",
     flexWrap: "wrap",
     backgroundColor: "#33b1ff",
-    padding: 20,
-    marginVertical: 5,
-    marginRight: 8,
+    paddingTop: hp('5%'),
+    marginRight: wp('0%'),
+    marginTop: hp('3%'),
+    marginBottom: hp('3%'),
     flexDirection: 'row',
     borderRadius: 10,
-    height: hp('100%'),
+  },
+  infoContainerAprovedTask4: {
+    flex: 1,
+    justifyContent: "space-around",
+    flexWrap: "wrap",
+    backgroundColor: "#33b1ff",
+    paddingTop: hp('5%'),
+    marginRight: wp('0%'),
+    marginTop: hp('3%'),
+    marginBottom: hp('3%'),
+    flexDirection: 'row',
+    borderRadius: 10,
+    height: hp('80%'),
+    width: wp('50%'),
+  },
+  infoContainerButtonsTask2: {
+    flex: 1,
+    justifyContent: "space-around",
+    flexWrap: "wrap",
+    backgroundColor: "#33b1ff",
+    paddingTop: hp('5%'),
+    marginRight: wp('0%'),
+    marginLeft: wp('23.8%'),
+    marginTop: hp('3%'),
+    marginBottom: hp('3%'),
+    flexDirection: 'row',
+    borderRadius: 10,
+    width: wp("23%"),
   },
   infoContainerTask: {
     flex: 1,
@@ -1491,7 +1682,18 @@ const styles = StyleSheet.create({
     marginVertical: 8,
     marginRight: 8,
     borderRadius: 10,
-    
+  },
+  infoContainerTask4: {
+    flex: 1,
+    justifyContent: "space-around",
+    flexWrap: "wrap",
+    backgroundColor: "#33b1ff",
+    padding: 20,
+    marginVertical: 8,
+    marginRight: 8,
+    borderRadius: 10,
+    height: hp('80%'),
+    width: wp('80%'),
   },
   infoContainerTask2: {
     flex: 1,
@@ -1672,13 +1874,13 @@ const styles = StyleSheet.create({
         color: "#fff",
         fontSize: wp("3%"),
         textAlign: "center",
-        fontFamily:'MontserratBold'
+        fontFamily: 'MontserratBold'
       },
       default: {
         color: "#fff",
         fontSize: wp("1.1%"),
         textAlign: "center",
-        fontFamily:'MontserratBold'
+        fontFamily: 'MontserratBold'
       },
     }),
   },

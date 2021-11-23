@@ -7,10 +7,10 @@ COPY package.json /usr/src/app/package.json
 RUN npm install --silent
 RUN npm install expo cli --silent
 COPY . /usr/src/app
-RUN npm run web
+RUN expo build:web
 
 ### STAGE 2: Production Environment ###
 FROM nginx:1.13.12-alpine
-ADD node_modules/expo/AppEntry.js /usr/share/nginx/html
+COPY --from=build /web-build /usr/share/nginx/html
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

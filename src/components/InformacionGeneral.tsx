@@ -699,11 +699,14 @@ export const InformacionGeneral = () => {
                         <Text style={[Styles.errorText]}>{errors.hobbies}</Text>
                     }
                 </View>
-                <Button
-                  onPress={handleSubmit}
-                  title="SIGN UP"
-                  disabled={!isValid}
-                />
+                <View style={{marginTop: '2%'}}>
+                    <Button
+                        onPress={handleSubmit}
+                        title="Enviar"
+                        disabled={!isValid}
+                        color='#5099D2'
+                    />
+                </View>
                 </>
                 )}
                 </Formik>

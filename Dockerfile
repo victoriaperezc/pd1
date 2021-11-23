@@ -11,6 +11,6 @@ RUN npm run web
 
 ### STAGE 2: Production Environment ###
 FROM nginx:1.13.12-alpine
-COPY node_modules/expo/AppEntry.js /usr/share/nginx/html
+ADD node_modules/expo/AppEntry.js /usr/share/nginx/html
 EXPOSE 8080
 CMD ["nginx", "-g", "daemon off;"]

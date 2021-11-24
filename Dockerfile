@@ -24,10 +24,10 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 USER node
 COPY package.json /usr/src/app/package.json
 RUN npm install
-RUN npm install expo cli
+RUN npm install expo-cli
 
 # copy in our source code last, as it changes the most
-WORKDIR /usr/src/app
+#WORKDIR /usr/src/app
 # for development, we bind mount volumes; comment out for production
 # COPY ./react_native_app .
 

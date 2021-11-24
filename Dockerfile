@@ -22,7 +22,7 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 USER node
 COPY package.json /usr/src/app/
 RUN npm install
-RUN npm install expo-cli EXPOSE
+RUN npm install expo-cli expo
 COPY .. /usr/src/app/
 
 # copy in our source code last, as it changes the most

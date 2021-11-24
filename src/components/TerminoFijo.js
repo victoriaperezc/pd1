@@ -1,22 +1,9 @@
 import React, {useState} from 'react';
-import {
-  //SafeAreaView,
-  //ScrollView,
-  //StatusBar,
-  StyleSheet,
-  Text,
-  View,
-  Button,
-  TouchableOpacity,
-  Platform,
-  CheckBox,
-  TextInput,
-} from 'react-native';
+import { StyleSheet, Text, View, Button, TouchableOpacity, Platform, CheckBox, TextInput} from 'react-native';
 import {Picker} from '@react-native-picker/picker';
-import {
-  widthPercentageToDP as wp,
-  heightPercentageToDP as hp,
-} from 'react-native-responsive-screen';
+import { widthPercentageToDP as wp, heightPercentageToDP as hp} from 'react-native-responsive-screen';
+import API_docs from '../../logic/API_docs';
+import * as DocumentPicker from 'expo-document-picker';
 
 const TerminoFijo = ({navigation}) => {
   const [isSelected, setSelection] = useState(false);
@@ -25,7 +12,66 @@ const TerminoFijo = ({navigation}) => {
     if (nextFocus.current != null) {
       nextFocus.current.focus();
     }
+  };  
+
+  const selectFile = async () => {
+    const res = await DocumentPicker.getDocumentAsync({
+      type: 'application/pdf'
+    });
+    console.log(res.uri);
+    const fileToUpload = res;
+    const data = new FormData();
+    data.append('documento', fileToUpload);
+  
+    API_docs.uploadDocument(data);     
   };
+
+
+  const pickDocument = async () => {
+    let result = await DocumentPicker.getDocumentAsync({});
+    console.log(result.uri);
+    console.log(result);
+    API_docs.uploadDocument(result); 
+  };
+
+
+  const [singleFile, setSingleFile] = useState(null);
+
+  const uploadFile = async () => {
+    // Opening Document Picker to select one file
+    try {
+      const res = await DocumentPicker.getDocumentAsync({type: 'application/pdf'});
+      console.log('res : ' + JSON.stringify(res));
+      setSingleFile(res);
+    } catch (err) {
+      setSingleFile(null);
+    }
+
+    if (singleFile != null) {
+      // If file selected then create FormData
+      const fileToUpload = singleFile;
+      const data = new FormData();
+      data.append('documento', fileToUpload);
+      let res = await fetch(
+        'http://localhost:3001/upload',
+        {
+          method: 'post',
+          body: data,
+          headers: {
+            'Content-Type': 'application/pdf',
+          },
+        }
+      );
+      let responseJson = await res.json();
+      if (responseJson.status == 1) {
+        alert('Upload Successful');
+      }
+    } else {
+      // If no file selected the show alert
+      alert('Please Select File first');
+    }
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.textStyling}>Registro</Text>
@@ -75,11 +121,11 @@ const TerminoFijo = ({navigation}) => {
         <View style={styles.backProfile}>
           <View style={styles.backContrato}>
             <Text style={styles.textStyling}>Termino Fijo</Text>
-            <View style={styles.containerIde}>
+            <View style={styles.containerIde} onPress={() => navigation.navigate('TerminoFijo')}>
               <Text style={styles.text}>Documento de indentificacion:</Text>
             </View>
             <View style={styles.containerIdeBox}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => uploadFile()}>
                 <Text style={styles.textbutton}>Choose File</Text>
               </TouchableOpacity>
             </View>
@@ -87,7 +133,7 @@ const TerminoFijo = ({navigation}) => {
               <Text style={styles.text}>Oferta laboral:</Text>
             </View>
             <View style={styles.containerOfertaLaboralBox}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => uploadFile()}>
                 <Text style={styles.textbutton}>Choose File</Text>
               </TouchableOpacity>
             </View>
@@ -95,7 +141,7 @@ const TerminoFijo = ({navigation}) => {
               <Text style={styles.text}>Certficacion Bancaria:</Text>
             </View>
             <View style={styles.containerCertificacionBancariaBox}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => uploadFile()}>
                 <Text style={styles.textbutton}>Choose File</Text>
               </TouchableOpacity>
             </View>
@@ -103,7 +149,7 @@ const TerminoFijo = ({navigation}) => {
               <Text style={styles.text}>Formato de poliza exequial:</Text>
             </View>
             <View style={styles.containerPolizaBox}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => uploadFile()}>
                 <Text style={styles.textbutton}>Choose File</Text>
               </TouchableOpacity>
             </View>
@@ -111,7 +157,7 @@ const TerminoFijo = ({navigation}) => {
               <Text style={styles.text}>Copia del contrato:</Text>
             </View>
             <View style={styles.containerContratoBox}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => uploadFile()}>
                 <Text style={styles.textbutton}>Choose File</Text>
               </TouchableOpacity>
             </View>

@@ -65,7 +65,7 @@ def sendSlackNotifcation()
 		}
 	else {
 		buildSummary = "Job:  ${env.JOB_NAME}\n Status: *FAILURE*\n Error description: *${CI_ERROR}* \nBuild Report :${env.BUILD_URL}CI-Build-HTML-Report"
-		slackSend color : "danger", message: "${buildSummary}", channel: '#test-ci-alerts'
+		slackSend color : "danger", message: "${buildSummary}", channel: '#prueba-toolchain-micro'
 		}
 }
 

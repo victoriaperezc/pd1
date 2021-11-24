@@ -7,7 +7,7 @@ ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
 # default to port 19006 for node, and 19001 and 19002 (tests) for debug
-EXPOSE 8080
+EXPOSE 19006
 
 # install global packages
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global

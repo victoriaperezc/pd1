@@ -20,8 +20,7 @@ RUN mkdir /usr/src/app && chown node:node /usr/src/app
 WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 USER node
-COPY package.json /usr/src/app/package.json
-COPY App.tsx /usr/src/app/App.tsx
+COPY . .
 RUN npm install
 RUN npm install expo-cli
 

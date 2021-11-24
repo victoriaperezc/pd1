@@ -61,4 +61,3 @@ def sendSlackNotifcation() {
 		slackSend color : "danger", message: "${buildSummary}", channel: '#test-ci-alerts'
 		}
 }
-}

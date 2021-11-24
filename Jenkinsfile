@@ -50,6 +50,7 @@ pipeline {
 		}
   }
 }
+
 def sendSlackNotifcation() { 
 	if ( currentBuild.currentResult == "SUCCESS" ) {
 		buildSummary = "Job:  ${env.JOB_NAME}\n Status: *SUCCESS*\n Build Report: ${env.BUILD_URL}CI-Build-HTML-Report"

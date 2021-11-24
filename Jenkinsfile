@@ -1,11 +1,15 @@
-pipeline {  
+pipeline {
+    
     agent any
+   
     triggers {
         pollSCM('* * * * *')
     }
+    
     options { 
         buildDiscarder(logRotator(numToKeepStr: '3', artifactNumToKeepStr: '3', daysToKeepStr: '3', artifactDaysToKeepStr: '3')) 
     }
+    
     environment {
         DOCKER_IMAGE_NAME = "victoriaperez/front-autentication"
     }
@@ -29,7 +33,7 @@ pipeline {
         sh "docker rmi victoriaperez/front-autentication:${env.BUILD_NUMBER}"
       }
     }
-    stage('Apply Kubernetes Files') {
+      stage('Apply Kubernetes Files') {
       steps {
           withKubeConfig([credentialsId: 'kubeconfig']) {
           sh 'cat deploy.yaml | sed "s/{{BUILD_NUMBER}}/$BUILD_NUMBER/g" | kubectl apply -f -'
@@ -37,28 +41,6 @@ pipeline {
         }
       }
   }
-  post {
-		always {
-			script {
-				CONSOLE_LOG = "${env.BUILD_URL}/console"
-				BUILD_STATUS = currentBuild.currentResult
-				if (currentBuild.currentResult == 'SUCCESS') {
-					CI_ERROR = "NA"
-					}
-				}
-				sendSlackNotifcation()
-		}
+}
   }
-}
 
-def sendSlackNotifcation() { 
-	if ( currentBuild.currentResult == "SUCCESS" ) {
-		buildSummary = "Job:  ${env.JOB_NAME}\n Status: *SUCCESS*\n Build Report: ${env.BUILD_URL}CI-Build-HTML-Report"
-
-		slackSend color : "good", message: "${buildSummary}", channel: '#test-ci-alerts'
-		}
-	else {
-		buildSummary = "Job:  ${env.JOB_NAME}\n Status: *FAILURE*\n Error description: *${CI_ERROR}* \nBuild Report :${env.BUILD_URL}CI-Build-HTML-Report"
-		slackSend color : "danger", message: "${buildSummary}", channel: '#test-ci-alerts'
-		}
-}

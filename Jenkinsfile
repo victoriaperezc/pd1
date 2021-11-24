@@ -41,7 +41,6 @@ pipeline {
         }
       }
   }
-}
 post {
 		always {
 			script {
@@ -53,6 +52,7 @@ post {
 				}
 				sendSlackNotifcation()
 		}
+  }
   }
 def sendSlackNotifcation() 
 { 

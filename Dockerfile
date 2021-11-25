@@ -23,6 +23,7 @@ USER root
 COPY ./ /usr/src/app/
 RUN npm install
 RUN npm install expo-cli expo
+RUN npm install --save-dev typescript@~4.3.5
 USER 1000
 #COPY .. /usr/src/app/
 

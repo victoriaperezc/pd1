@@ -1,5 +1,5 @@
 # pull base image
-FROM node:14.13.1-buster-slim
+FROM node:14.18.1-buster-slim
 
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
@@ -19,10 +19,11 @@ RUN npm i --unsafe-perm -g npm@latest expo-cli@latest
 RUN mkdir /usr/src/app && chown node:node /usr/src/app
 WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
-USER node
-COPY package.json /usr/src/app/
+USER root
+COPY ./ /usr/src/app/
 RUN npm install
 RUN npm install expo-cli expo
+#COPY .. /usr/src/app/
 
 # copy in our source code last, as it changes the most
 #WORKDIR /usr/src/app

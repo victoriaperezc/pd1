@@ -1,5 +1,5 @@
 # pull base image
-FROM node:14.18.1-buster-slim
+FROM node:16
 
 # set our node environment, either development or production
 # defaults to production, compose overrides this to development on build and run
@@ -13,6 +13,7 @@ EXPOSE 19006
 ENV NPM_CONFIG_PREFIX=/home/node/.npm-global
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 RUN npm i --unsafe-perm -g npm@latest expo-cli@latest
+RUN npm install -g typescript
 
 # install dependencies first, in a different location for easier app bind mounting for local development
 # due to default /opt permissions we have to create the dir with root and change perms
@@ -22,8 +23,8 @@ ENV PATH /usr/src/app/node_modules/.bin:$PATH
 USER root
 COPY ./ /usr/src/app/
 RUN npm install
+RUN npm install --save-dev typescript@~4.3.5
 RUN npm install expo-cli expo
-RUN npm install -g typescript
 USER 1000
 #COPY .. /usr/src/app/
 

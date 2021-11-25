@@ -56,7 +56,6 @@
     "styled-system": "^5.1.5",
     "yup": "^0.32.11",
     "expo-document-picker": "~10.0.3"
-    "typescript": "~4.3.5"
   },
   "devDependencies": {
     "@babel/core": "^7.12.9",

@@ -11,26 +11,26 @@ pipeline {
     }
     
     environment {
-        DOCKER_IMAGE_NAME = "victoriaperez/front-autentication"
+        DOCKER_IMAGE_NAME = "victoriaperez/front-autentication:214"
     }
   
   stages {
     stage('Docker Build') {
       steps {
-        sh "docker build -t victoriaperez/front-autentication:${env.BUILD_NUMBER} ."
+        sh "docker build -t victoriaperez/front-autentication:214 ."
       }
     }
     stage('Docker Push') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
           sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh "docker push victoriaperez/front-autentication:${env.BUILD_NUMBER}"
+          sh "docker push victoriaperez/front-autentication:214"
         }
       }
     }
     stage('Docker Remove Image') {
       steps {
-        sh "docker rmi victoriaperez/front-autentication:${env.BUILD_NUMBER}"
+        sh "docker rmi victoriaperez/front-autentication:214"
       }
     }
       stage('Apply Kubernetes Files') {

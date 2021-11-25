@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: front-autenticacion
-        image: victoriaperez/front-autentication:{{BUILD_NUMBER}}
+        image: victoriaperez/front-autentication:214
         ports:
         - containerPort: 19006
 

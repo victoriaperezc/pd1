@@ -21,7 +21,6 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 USER node
 COPY package.json /usr/src/app/
-COPY App.tsx /usr/src/app/
 RUN npm install
 RUN npm install expo-cli expo
 

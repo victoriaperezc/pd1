@@ -1,8 +1,9 @@
 pipeline {
-    
-    agent any
+  
+  agent any
    
     triggers {
+
         pollSCM('* * * * *')
     }
     
@@ -11,10 +12,12 @@ pipeline {
     }
     
     environment {
+
         DOCKER_IMAGE_NAME = "victoriaperez/front-autentication:214"
     }
   
   stages {
+    
     stage('Docker Build') {
       steps {
         bat "docker build -t victoriaperez/front-autentication:214 ."
@@ -33,7 +36,7 @@ pipeline {
         bat "docker rmi victoriaperez/front-autentication:214"
       }
     }
-      stage('Apply Kubernetes Files') {
+    stage('Apply Kubernetes Files') {
       steps {
           withKubeConfig([credentialsId: 'kubeconfig']) {
           bat 'kubectl apply -f deploy.yaml'
@@ -47,8 +50,8 @@ pipeline {
             bat 'kubectl delete pod --field-selector=status.phase==Succeeded'   
             echo "Cleanup done"
         }
-            }
-        } 
+      }
+  } 
 }
 
 post {
@@ -64,6 +67,7 @@ post {
 		}
 	}
 }
+
 def sendSlackNotifcation() 
 { 
 	if ( currentBuild.currentResult == "SUCCESS" ) {

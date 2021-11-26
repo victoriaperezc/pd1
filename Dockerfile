@@ -1,8 +1,6 @@
-# pull base image
 FROM node:16
 
 # set our node environment, either development or production
-# defaults to production, compose overrides this to development on build and run
 ARG NODE_ENV=production
 ENV NODE_ENV $NODE_ENV
 
@@ -22,6 +20,7 @@ WORKDIR /usr/src/app
 ENV PATH /usr/src/app/node_modules/.bin:$PATH
 USER root
 COPY ./ /usr/src/app/
+COPY package.json /usr/src/app/
 RUN npm install
 RUN npm install --save-dev typescript@~4.3.5
 RUN npm install expo-cli expo

@@ -17,34 +17,34 @@ pipeline {
   stages {
     stage('Docker Build') {
       steps {
-        sh "docker build -t victoriaperez/front-autentication:214 ."
+        bat "docker build -t victoriaperez/front-autentication:214 ."
       }
     }
     stage('Docker Push') {
       steps {
         withCredentials([usernamePassword(credentialsId: 'dockerhub', passwordVariable: 'dockerHubPassword', usernameVariable: 'dockerHubUser')]) {
-          sh "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
-          sh "docker push victoriaperez/front-autentication:214"
+          bat "docker login -u ${env.dockerHubUser} -p ${env.dockerHubPassword}"
+          bat "docker push victoriaperez/front-autentication:214"
         }
       }
     }
     stage('Docker Remove Image') {
       steps {
-        sh "docker rmi victoriaperez/front-autentication:214"
+        bat "docker rmi victoriaperez/front-autentication:214"
       }
     }
       stage('Apply Kubernetes Files') {
       steps {
           withKubeConfig([credentialsId: 'kubeconfig']) {
-          sh 'kubectl apply -f deploy.yaml'
-          sh 'kubectl apply -f service.yaml'
+          bat 'kubectl apply -f deploy.yaml'
+          bat 'kubectl apply -f service.yaml'
         }
       }
   }
   stage('Post process cleanup'){
       steps{
            withKubeConfig([credentialsId: 'kubeconfig']) {
-            sh 'kubectl delete pod --field-selector=status.phase==Succeeded'   
+            bat 'kubectl delete pod --field-selector=status.phase==Succeeded'   
             echo "Cleanup done"
         }
             }

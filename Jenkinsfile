@@ -41,6 +41,14 @@ pipeline {
         }
       }
   }
+  stage('Post process cleanup'){
+      steps{
+           withKubeConfig([credentialsId: 'kubeconfig']) {
+            sh 'kubectl delete pod --field-selector=status.phase==Succeeded'   
+            echo "Cleanup done"
+        }
+            }
+        } 
 }
 
 post {
